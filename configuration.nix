@@ -25,20 +25,21 @@
     };
     environment.systemPackages = with pkgs; [ 
       nix-gaming.packages.${pkgs.hostPlatform.system}.wine-ge
-      discord yakuake
+      discord yakuake wireguard-tools
       firefox kate htop
       libreoffice-qt 
       hunspell hunspellDicts.uk_UA hunspellDicts.th_TH
       tmux curl git ripgrep 
       zip unzip 
-      rsync strace
+      rsync strace gnupg pinentry lynis
       vlc clinfo glxinfo pciutils vulkan-tools wayland-utils flatpak
       gnome.gnome-software corectrl libva-utils nvtop-amd       
    ];
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
+#      /etc/nixos/networking/wireguard_server.nix
       nix-gaming.nixosModules.pipewireLowLatency
       nix-gaming.nixosModules.steamCompat
     ];
@@ -82,7 +83,20 @@
 #      orderedCompatiblePackages = sort  (x: y: compareVersions x.kernel.version y.kernel.version > 0) compatiblePackages;
 #    in head orderedCompatiblePackages;   
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages =
+    with builtins; with lib; let
+      latestCompatibleVersion = config.boot.zfs.package.latestCompatibleLinuxPackages.kernel.version;
+      hardenedPackages = filterAttrs (name: packages: hasSuffix "_hardened" name && (tryEval packages).success) pkgs.linuxKernel.packages;
+      compatiblePackages = filter (packages: compareVersions packages.kernel.version latestCompatibleVersion <= 0) (attrValues hardenedPackages);
+      orderedCompatiblePackages = sort (x: y: compareVersions x.kernel.version y.kernel.version > 0) compatiblePackages;
+    in head orderedCompatiblePackages;
+
+#Chrome, Steam, and builds require user namespaces
+  boot.kernel.sysctl = {
+    "kernel.unprivileged_userns_clone" = 1;
+  };   
+
+#  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 #  programs.cfs-zen-tweaks.enable = true;
 
 #  boot.kernelPackages = pkgs.linuxPackages_zen.extend (final: prev: {
@@ -257,7 +271,7 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
   };
 
   # Open ports in the firewall.
