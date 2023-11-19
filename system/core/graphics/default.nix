@@ -3,7 +3,7 @@
 {
 
   imports = [
-
+    ./radeon.nix
   ];
 
 }

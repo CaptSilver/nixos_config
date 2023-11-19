@@ -3,8 +3,7 @@
 {
 
   imports = [
-    ./nix.nix
-    ./nixpkgs.nix
+    ./pipewire.nix
   ];
 
 }

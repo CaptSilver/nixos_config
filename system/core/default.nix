@@ -10,6 +10,7 @@
   ./kernel
   ./locale
   ./networking
+  ./sound
 
   ];
 

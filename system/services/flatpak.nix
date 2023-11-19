@@ -3,8 +3,7 @@
 {
 
   imports = [
-    ./nix.nix
-    ./nixpkgs.nix
   ];
 
+  services.flatpak.enable = true;
 }

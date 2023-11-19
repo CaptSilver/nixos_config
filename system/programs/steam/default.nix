@@ -3,8 +3,9 @@
 {
 
   imports = [
-    ./nix.nix
-    ./nixpkgs.nix
+
+    ./steam.nix
+
   ];
 
 }
