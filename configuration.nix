@@ -38,8 +38,10 @@
 
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-#      /etc/nixos/networking/wireguard_server.nix
+      ./hardware-configuration.nix
+      ./system
+      ./user
+      ./machines
       nix-gaming.nixosModules.pipewireLowLatency
       nix-gaming.nixosModules.steamCompat
     ];
@@ -296,25 +298,25 @@
   hardware.opengl.driSupport32Bit = true; # Enables support for 32bit libs that steam uses
   hardware.steam-hardware.enable = true;
 
-  fonts = {
-    fontDir.enable = true;
-    fonts = with pkgs;[
-      corefonts
-      inconsolata
-      terminus_font
-      dejavu_fonts
-      ubuntu_font_family
-      source-code-pro
-      source-sans-pro
-      source-serif-pro
-      roboto-mono
-      roboto
-      overpass
-      libre-baskerville
-      font-awesome
-      julia-mono
-    ];
-  };
+#  fonts = {
+#    fontDir.enable = true;
+#    fonts = with pkgs;[
+#      corefonts
+#      inconsolata
+#      terminus_font
+#      dejavu_fonts
+#      ubuntu_font_family
+#      source-code-pro
+#      source-sans-pro
+#      source-serif-pro
+#      roboto-mono
+#      roboto
+#      overpass
+#      libre-baskerville
+#      font-awesome
+#      julia-mono
+#    ];
+#  };
 
 }
 
