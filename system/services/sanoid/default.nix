@@ -1,0 +1,9 @@
+{ ... }:
+
+{
+
+  imports = [
+    ./sanoid.nix
+  ];
+
+}

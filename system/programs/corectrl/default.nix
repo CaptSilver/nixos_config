@@ -1,0 +1,11 @@
+{ ... }:
+
+{
+
+  imports = [
+
+    ./corectrl.nix
+
+  ];
+
+}

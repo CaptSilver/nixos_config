@@ -15,8 +15,13 @@
       rocmPackages.rocm-runtime
       amdvlk
       driversi686Linux.amdvlk
-      radeontop
+      radeontop nvtop-amd
+      vulkan-tools
+      wayland-utils
 #      vulkan-validation-layers  #having problems with building
+      libva-utils
+      glxinfo
+      clinfo
     ];
   };
 

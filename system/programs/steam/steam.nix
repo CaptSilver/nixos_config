@@ -24,4 +24,10 @@
   systemd.extraConfig = "DefaultLimitNOFILE=1048576";
   hardware.opengl.driSupport32Bit = true; # Enables support for 32bit libs that steam uses
   hardware.steam-hardware.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    wine
+    winetricks
+#    wineWowPackages.waylandFull
+  ];
 }
