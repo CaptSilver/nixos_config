@@ -6,10 +6,12 @@
   ];
 
   boot = {
+    consoleLogLevel = 3;
     supportedFilesystems = [ "ext4" "zfs" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      grub.copyKernels = true;
     };
     tmp = {
       useTmpfs = true;
@@ -19,6 +21,9 @@
       forceImportRoot = true;
       extraPools = [ "nvme" "storage" "backup" "coldstorage" ];
     };
+#    initrd.systemd.enable = true; #Can't run post commands with systemd in initrd
+    plymouth.enable = true;
+    plymouth.theme = "breeze";
     initrd.network = {
       postCommands = ''
       zfs load-key -a

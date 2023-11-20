@@ -15,8 +15,8 @@
     tmux curl git ripgrep
     zip unzip
     rsync strace gnupg pinentry lynis
-    vlc clinfo glxinfo pciutils vulkan-tools wayland-utils flatpak
-    gnome.gnome-software corectrl libva-utils nvtop-amd
+    vlc clinfo glxinfo pciutils vulkan-tools wayland-utils
+    corectrl libva-utils nvtop-amd
   ];
 
 
