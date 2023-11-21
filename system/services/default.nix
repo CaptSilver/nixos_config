@@ -6,7 +6,7 @@
     ./cups
 #    ./flatpak
     ./plex
-#    ./samba
+    ./samba
     ./sanoid
     ./ssh
   ];

@@ -1,7 +1,7 @@
 { pkgs, lib, config, options, ... }:
 
-{
-
+{  #Cups support is still failing but everything else is working!
+   #LDD shows no cups support built in package, NixOS still wants to install the regular Samba package.
   imports = [  ];
 
   users = {
@@ -18,7 +18,7 @@
   };
 
 
-  networking.firewall.allowedTCPPorts = [ 445 139 5357 631];
+  networking.firewall.allowedTCPPorts = [ 445 139 5357 631]; #Samba, mDNS/Avahi
   networking.firewall.allowedUDPPorts = [ 137 138 3702 631];
 
   environment.systemPackages = with pkgs; [ cifs-utils sambaFull ];
@@ -29,7 +29,7 @@
 
     enable = true; #Installing a samba without CUPS support, :(
     package = pkgs.sambaFull;
-    openFirewall = true;
+    openFirewall = true; #This may work... I opened the firewall ports manually just in case.
     securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
@@ -67,17 +67,17 @@
         "force user" = "samba";
         "force group" = "samba";
       };
-#      printers = {
-#        comment = "All Printers";
-#        path = "/var/spool/samba";
-#        public = "yes";
-#        browseable = "yes";
-#        # to allow user 'guest account' to print.
-#        "guest ok" = "yes";
-#        writable = "no";
-#        printable = "yes";
-#        "create mode" = 0700;
-#      };
+      printers = {
+        comment = "All Printers";
+        path = "/var/spool/samba";
+        public = "yes";
+        browseable = "yes";
+        # to allow user 'guest account' to print.
+        "guest ok" = "yes";
+        writable = "no";
+        printable = "yes";
+        "create mode" = 0700;
+      };
     };
   };
 
@@ -95,7 +95,7 @@
       userServices = true;
       workstation = true;
     };
-    extraServiceFiles = {
+    extraServiceFiles = { #Can't see samba shares without this...
       smb = ''
         <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
         <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
@@ -110,9 +110,10 @@
     };
   };
 
-  systemd.tmpfiles.rules = [
+  systemd.tmpfiles.rules = [ #This will make sure perms are set!
     "d /var/spool/samba 1777 root root -"
-    "d /home/dave/Public 0771 dave samba -"
-    "d /home/dave/Downloads 0771 dave samba -"
+    "d /home/dave 0711 dave users -" #Must have execute bit in other to enter home dir. Sticky bit shouldn't be necessary.
+    "d /home/dave/Public 1771 dave samba -"
+    "d /home/dave/Downloads 1771 dave samba -"
   ];
 }

@@ -13,6 +13,7 @@
       enableGhostscriptFonts = true;
 
       fonts = with pkgs;[
+        nerdfonts
         corefonts
         inconsolata
         terminus_font
