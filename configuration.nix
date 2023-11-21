@@ -41,7 +41,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./system
-      ./user
       ./machines
 #      nix-gaming.nixosModules.pipewireLowLatency
 #      nix-gaming.nixosModules.steamCompat
