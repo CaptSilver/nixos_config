@@ -7,9 +7,8 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    htop
     tmux curl git ripgrep
-    zip unzip
+    zip unzip home-manager
     rsync strace gnupg pinentry lynis
     pciutils
   ];

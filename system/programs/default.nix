@@ -10,6 +10,7 @@
   ./firefox
   ./gimp
   ./google-chrome
+#  ./htop
   ./kde
   ./libreoffice
   ./obs-studio
